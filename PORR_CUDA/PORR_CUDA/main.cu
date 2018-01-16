@@ -14,6 +14,7 @@ void test(int liczba_prob, char* nazwa_pliku);
 
 int main()
 {
+	//matrix_test();
 	test(1, "data_1000");
 	return 0;
 }
@@ -28,31 +29,31 @@ void test(int liczba_prob, char* nazwa_pliku) {
 
 		load_matrix(&matrix, &matrix_size, nazwa_pliku);
 		ftime(&start_gauss_jordan);
-		//uss_jordan(matrix_size, matrix, thread_cnt);
+		//gauss_jordan(matrix_size, matrix, thread_cnt);
 		ftime(&end_gauss_jordan);
 		dealloc_mem(matrix, matrix_size);
 
 		load_matrix(&matrix, &matrix_size, nazwa_pliku);
 		ftime(&start_cheb_1);
-		chebyshev(matrix_size, matrix, 10, 1000);
+		chebyshev(matrix_size, matrix, 10, 10);
 		ftime(&end_cheb_1);
 		dealloc_mem(matrix, matrix_size);
 
 		load_matrix(&matrix, &matrix_size, nazwa_pliku);
 		ftime(&start_cheb_2);
-		chebyshev(matrix_size, matrix, 100, 1000);
+		chebyshev(matrix_size, matrix, 100, 10);
 		ftime(&end_cheb_2);
 		dealloc_mem(matrix, matrix_size);
 
 		load_matrix(&matrix, &matrix_size, nazwa_pliku);
 		ftime(&start_cheb_3);
-		chebyshev(matrix_size, matrix, 1000, 1000);
+		chebyshev(matrix_size, matrix, 1000, 10);
 		ftime(&end_cheb_3);
 		dealloc_mem(matrix, matrix_size);
 
 		load_matrix(&matrix, &matrix_size, nazwa_pliku);
 		ftime(&start_cheb_4);
-		chebyshev(matrix_size, matrix, 10000, 1000);
+		chebyshev(matrix_size, matrix, 10000, 10);
 		ftime(&end_cheb_4);
 		dealloc_mem(matrix, matrix_size);
 

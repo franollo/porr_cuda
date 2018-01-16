@@ -45,6 +45,17 @@ __global__ void copyMatRowToVectorKernel(double *src, double *dst, int ROW_NUM, 
 	}
 }
 
+void copyMatRowToVector(double *src, double *dst, int ROW_NUM, int N) {
+	dim3 threadsPerBlock(N);
+	dim3 blocksPerGrid(1);
+	if (N > 512) {
+		threadsPerBlock.x = 512;
+		blocksPerGrid.x = ceil(double(N) / double(threadsPerBlock.x));
+	}
+
+	copyMatRowToVectorKernel << <blocksPerGrid, threadsPerBlock >> >(src, dst, ROW_NUM, N);
+}
+
 __global__ void calculateXplus1Kernel(double *x, double *Ax, double *b, double *scalar_1, double *scalar_2, int N) {
 
 	int ROW = blockIdx.x*blockDim.x + threadIdx.x;
@@ -58,12 +69,18 @@ __global__ void calculateXplus1Kernel(double *x, double *Ax, double *b, double *
 	}
 }
 
+
+
 __global__ void normKernel(double *x, double *res_vector, int N) {
 
 	int ROW = blockIdx.x*blockDim.x + threadIdx.x;
 
 	if (ROW < N) {
-		res_vector[ROW] = pow(x[I * N + ROW] - x[Im1 * N + ROW], 2);
+		res_vector[ROW] = x[I * N + ROW] - x[Im1 * N + ROW];
+		res_vector[ROW] = pow(res_vector[ROW], 2);
 	}
 }
+
+
+
 
